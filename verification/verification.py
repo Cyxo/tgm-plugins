@@ -4,10 +4,10 @@ from discord.ext import commands
 from core import checks
 from core.models import PermissionLevel
 
-CHANNEL_ID = 1097760934090514523
+CHANNEL_ID = 1292914076967501987
 MESSAGE_ID = 1097762971373027348
-ROLE_ID = 896300858277494784
-MUTED_ID = 902856057662083103
+PING_THREAD_ID = 1293684881599234088
+ROLE_ID = 1292910842462867478
 
 
 class Verification(commands.Cog):
@@ -23,18 +23,19 @@ class Verification(commands.Cog):
 
         guild = self.bot.get_guild(payload.guild_id)
         member = payload.member
-        if payload.emoji.name == '✅':
-            # Remove Reaction
-            if not member.bot:
-                await msg.remove_reaction('✅', member)
-        # Remove other types of reactions
+        if payload.emoji.name == '🔫':
+            await msg.remove_reaction('🔫', member)
+        elif payload.emoji.name == '✅':
+            ping_thread = await self.bot.get_channel(CHANNEL_ID).get_thread(PING_THREAD_ID)
+            return await ping_thread.send(f"{payload.member.mention} lying is bad, you should read the rules for real !! (I promise they're not *that* long)")
         else:
+            # Remove other types of reactions
             return await msg.remove_reaction(payload.emoji, member)
 
         # Get Butterflies role
         role = discord.utils.get(guild.roles, id=ROLE_ID)
         # If member exists, is not a bot and doesn't have the Muted Role
-        if member is not None and not member.bot and member.get_role(MUTED_ID) is None:
+        if member is not None and not member.bot:
             await member.add_roles(role)
 
     # In case all reactions get cleared
