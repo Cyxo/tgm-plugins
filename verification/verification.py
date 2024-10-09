@@ -46,6 +46,10 @@ class Verification(commands.Cog):
         # Get Message object from the Verification Channel
         channel = self.bot.get_channel(CHANNEL_ID)
         msg = await channel.fetch_message(MESSAGE_ID)
+        emojis = set([reac.emoji for reac in msg.reactions])
+        for emoji in emojis:
+            if emoji != '✅':
+                msg.clear_reaction(emoji)
         await msg.add_reaction('✅')
 
         await ctx.send(embed=discord.Embed(description='Reaction added!', colour=discord.Colour.from_rgb(0, 255, 0)))
