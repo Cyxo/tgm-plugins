@@ -17,6 +17,7 @@ class Verification(commands.Cog):
     @commands.Cog.listener("on_raw_reaction_add")
     async def verification_on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
         message_id = payload.message_id
+        ping_thread = self.bot.get_channel(CHANNEL_ID).get_thread(PING_THREAD_ID)
         msg = await self.bot.get_channel(CHANNEL_ID).fetch_message(MESSAGE_ID)
         if message_id != msg.id:
             return
@@ -26,9 +27,7 @@ class Verification(commands.Cog):
         if payload.emoji.name == '🔫':
             await msg.remove_reaction('🔫', member)
         elif payload.emoji.name == '✅':
-            ping_thread = self.bot.get_channel(CHANNEL_ID).get_thread(PING_THREAD_ID)
             await ping_thread.send(f"{payload.member.mention} lying is bad, you should read the rules for real !! (I promise they're not *that* long)")
-            await ping_thread.remove_user(payload.member)
             return
         else:
             # Remove other types of reactions
@@ -39,6 +38,10 @@ class Verification(commands.Cog):
         # If member exists, is not a bot and doesn't have the Muted Role
         if member is not None and not member.bot:
             await member.add_roles(role)
+            try:
+                await ping_thread.remove_user(payload.member)
+            except:
+                pass
 
     # In case all reactions get cleared
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
