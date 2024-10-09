@@ -49,7 +49,7 @@ class Verification(commands.Cog):
         emojis = set([reac.emoji for reac in msg.reactions])
         for emoji in emojis:
             if emoji != '✅':
-                msg.clear_reaction(emoji)
+                await msg.clear_reaction(emoji)
         await msg.add_reaction('✅')
 
         await ctx.send(embed=discord.Embed(description='Reaction added!', colour=discord.Colour.from_rgb(0, 255, 0)))
