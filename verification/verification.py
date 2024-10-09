@@ -27,7 +27,9 @@ class Verification(commands.Cog):
             await msg.remove_reaction('🔫', member)
         elif payload.emoji.name == '✅':
             ping_thread = self.bot.get_channel(CHANNEL_ID).get_thread(PING_THREAD_ID)
-            return await ping_thread.send(f"{payload.member.mention} lying is bad, you should read the rules for real !! (I promise they're not *that* long)")
+            await ping_thread.send(f"{payload.member.mention} lying is bad, you should read the rules for real !! (I promise they're not *that* long)")
+            await ping_thread.remove_user(payload.member)
+            return
         else:
             # Remove other types of reactions
             return await msg.remove_reaction(payload.emoji, member)
