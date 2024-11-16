@@ -17,14 +17,14 @@ class Verification(commands.Cog):
     @commands.Cog.listener("on_raw_reaction_add")
     async def verification_on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
         message_id = payload.message_id
-        ping_thread = self.bot.get_channel(CHANNEL_ID).get_thread(PING_THREAD_ID)
+        ping_thread = self.bot.get_guild(payload.guild_id).get_channel_or_thread(PING_THREAD_ID)
         msg = await self.bot.get_channel(CHANNEL_ID).fetch_message(MESSAGE_ID)
         if message_id != msg.id:
             return
 
         guild = self.bot.get_guild(payload.guild_id)
         member = payload.member
-        if payload.emoji.name == '🔫':
+        if payload.emoji.name == '🔫' or ping_thread is None:
             await msg.remove_reaction('🔫', member)
         elif payload.emoji.name == '✅':
             await ping_thread.send(f"{payload.member.mention} lying is bad, you should read the rules for real !! (I promise they're not *that* long)")
