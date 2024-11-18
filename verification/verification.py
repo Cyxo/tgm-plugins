@@ -10,9 +10,22 @@ PING_THREAD_ID = 1293684881599234088
 ROLE_ID = 1292910842462867478
 
 
+MESSAGES = [
+    "lying is bad, you should read the rules for real !! (I promise they're not *that* long)",
+    "the verification is not broken! Reading the rules will tell you how to verify!",
+    "you're one stubborn child... Stop clicking that ✅ and read the rules!",
+    "okay, I'll give you a tip. The answer is in the 6th rule category 😉",
+    "is it too hard for you to read? 😭",
+    "I'm starting to think that you're teasing me...",
+    "imma call Soldier 11 to punish you if you don't read the rules!",
+    "stop, this ain't fun anymore. Read the rules. 😐"
+]
+
+
 class Verification(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.time_sent = {}
 
     @commands.Cog.listener("on_raw_reaction_add")
     async def verification_on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
@@ -27,7 +40,11 @@ class Verification(commands.Cog):
         if payload.emoji.name == '🔫' or ping_thread is None:
             await msg.remove_reaction('🔫', member)
         elif payload.emoji.name == '✅':
-            await ping_thread.send(f"{payload.member.mention} lying is bad, you should read the rules for real !! (I promise they're not *that* long)")
+            if payload.user_id not in self.time_sent:
+                self.time_sent[payload.user_id] = 0
+            idx = min(self.time_sent[payload.user_id], len(MESSAGES) - 1)
+            await ping_thread.send(payload.member.mention + " " + MESSAGES[idx])
+            self.time_sent[payload.user_id] += 1
             return
         else:
             # Remove other types of reactions
