@@ -15,7 +15,7 @@ class Welcome(commands.Cog):
         channel = self.bot.get_channel(CHANNEL_ID)
         if channel is not None:
             embed = discord.Embed(
-                title=f"Welcome to Trigger Mains, {member.name}!",
+                title=f"Welcome to Trigger Mains, {member.name}! <:TriggerHello:1333076146727682129>",
                 description=f"Please read <#1292914076967501987> and accept the rules to access the rest of the server! **The verification is not broken, you have to actually read the rules.**\n\nYou can also visit <#1292914884396453899> to familiarize yourself with the server, and <#1292917244678115339> to claim some additional roles!\n\n We wish you a pleasant stay; if you need help, DM <@1293642317298663526> to start a Modmail ticket!",
                 colour=discord.Colour.from_rgb(233, 176, 72)
             )
