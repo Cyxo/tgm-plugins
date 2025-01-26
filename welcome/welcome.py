@@ -22,7 +22,7 @@ class Welcome(commands.Cog):
 
             embed.set_thumbnail(url=member.display_avatar)
             embed.set_image(
-                url='https://media.discordapp.net/attachments/1293249412856025149/1293690609575530556/trigger_sniper.png')
+                url='https://media.discordapp.net/attachments/1293249412856025149/1333074474714534021/image.png')
             embed.set_footer(text=f'Thanks to you, we now have {guild.member_count} members!') # ,
                              # icon_url='https://cdn.discordapp.com/attachments/1106792127268139119/1153168727701995620/ruanmei_flower.png')
 
