@@ -30,10 +30,10 @@ class Verification(commands.Cog):
     @commands.Cog.listener("on_raw_reaction_add")
     async def verification_on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
         message_id = payload.message_id
-        ping_thread = self.bot.get_guild(payload.guild_id).get_channel_or_thread(PING_THREAD_ID)
         msg = await self.bot.get_channel(CHANNEL_ID).fetch_message(MESSAGE_ID)
         if message_id != msg.id:
             return
+        ping_thread = self.bot.get_guild(payload.guild_id).get_channel_or_thread(PING_THREAD_ID)
 
         guild = self.bot.get_guild(payload.guild_id)
         member = payload.member
