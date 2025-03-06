@@ -1,0 +1,3 @@
+aiocron==1.8
+aiohttp==3.11.13
+feedparser==6.0.11
