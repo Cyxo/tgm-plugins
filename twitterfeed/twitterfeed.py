@@ -28,9 +28,7 @@ class TwitterFeed(commands.Cog, name=COG_NAME):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.cog_id = uuid.uuid4()
-        self.session = aiohttp.ClientSession(headers={
-            "User-Agent": USER_AGENT
-        })
+        self.session = aiohttp.ClientSession()
         self.posted: dict[str, list[str]] = {}
         self.index = 0
 
@@ -55,7 +53,7 @@ class TwitterFeed(commands.Cog, name=COG_NAME):
 
         username = FEEDS[self.index]
 
-        async with self.session.get(NITTER_URL.format(username)) as r:
+        async with self.session.get(NITTER_URL.format(username), headers={"User-Agent": USER_AGENT}) as r:
             if r.status == 200:
                 txt = await r.text()
                 rss = feedparser.parse(txt)
