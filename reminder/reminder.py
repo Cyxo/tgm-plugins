@@ -98,7 +98,7 @@ class Reminder(commands.Cog):
             dt: datetime.datetime = self.cal.parseDT(dtt, datetime.datetime.now())[0]
 
             msg = await message.reply(
-                f"Reminder set on <t:{int(dt.timestamp())}:f> <:RuanMeiNote:1227533354178580510>",
+                f"Reminder set on <t:{int(dt.timestamp())}:f> <:TriggerPhone:1346572649022623856>",
                 mention_author=False
             )
             await msg.add_reaction("❌")
