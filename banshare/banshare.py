@@ -32,7 +32,7 @@ class Banshare(commands.Cog):
             await self.channel.send(":warning: The member is already in the server!")
         
         self.banshared[str(id)] = reason
-        j = json.dumps(list(self.banshared))
+        j = json.dumps(self.banshared)
         with open("banshared.json", "w") as f:
             f.write(j)
         await self.channel.send(f"<@{id}> added to the banshare list! Reason: \"{reason}\"")
