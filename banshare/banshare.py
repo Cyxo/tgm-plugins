@@ -41,6 +41,15 @@ class Banshare(commands.Cog):
             f.write(j)
         await self.channel.send(f"<@{id}> added to the banshare list! Reason: \"{reason}\"")
 
+    @checks.has_permissions(PermissionLevel.MODERATOR)
+    @commands.command()
+    async def banshare_info(self, ctx: commands.Context, member: discord.Member):
+        id = member.id
+        if str(id) in self.banshared.keys():
+            await ctx.reply(f'{member.mention} is in the banshare list: "{self.banshared[str(id)]}"')
+        else:
+            await ctx.reply(f'{member.mention} is not in the banshare list.')
+
 
 async def setup(bot):
     await bot.add_cog(Banshare(bot))
