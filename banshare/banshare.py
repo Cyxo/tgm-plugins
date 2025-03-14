@@ -4,6 +4,9 @@ from os import path
 import discord
 from discord.ext import commands
 
+from core import checks
+from core.models import PermissionLevel
+
 
 CHANNEL_ID = 1293716015175176234
 
@@ -25,6 +28,7 @@ class Banshare(commands.Cog):
                 await self.channel.send(f"<@&1292946300865876142> The new member <@{member.id}> is in a banshare from partnered servers!\n"
                                         "Here was the reason: \"{self.banshared[str(member.id)]}\"")
 
+    @checks.has_permissions(PermissionLevel.MODERATOR)
     @commands.command()
     async def banshare(self, ctx: commands.Context, id: int, *, reason: str):
         m = ctx.guild.get_member(id)
