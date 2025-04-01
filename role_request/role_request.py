@@ -3,10 +3,11 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ui import View, Button, Select
 
+COG_NAME = "RoleManager"
 GUILD_ID = 311149232402726912
 STAFF_CHANNEL_ID = 781551409433673748 #please change with the intended channel  lole
 
-class RoleManager(commands.Cog):
+class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
     def __init__(self, bot):
         self.bot = bot
 
