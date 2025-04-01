@@ -4,8 +4,8 @@ from discord.ext import commands
 from discord.ui import View, Button, Select
 
 COG_NAME = "RoleManager"
-GUILD_ID = 311149232402726912
-STAFF_CHANNEL_ID = 781551409433673748 #please change with the intended channel  lole
+GUILD_ID = 1292899450754302024
+STAFF_CHANNEL_ID = 1356606380345135296
 
 ROLES = [
     app_commands.Choice(name="OG〖Pulled on Release〗", value="1354884832315969719"), #Roles's ids should be already changed, so no need to change them again
