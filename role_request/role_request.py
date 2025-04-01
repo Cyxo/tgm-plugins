@@ -133,7 +133,7 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
             embed.set_author(name=author.name, icon_url=author.avatar.url if author.avatar else None)
             embeds.append(embed)
 
-        message = await staff_channel.send(embed=embed, view=staff_view)
+        message = await staff_channel.send(embeds=embeds, view=staff_view)
         staff_view.message = message
 
         # Acknowledge the interaction
