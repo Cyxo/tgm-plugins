@@ -90,16 +90,20 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
         #-----------------------------------------------------------
         # User response
         #-----------------------------------------------------------
+        user_embeds = []
         submission_embed = discord.Embed(
             title=f"Submission by {author.name}",
             color=discord.Color.blue(),
         )
         submission_embed.add_field(name="Role", value=role.name, inline=False)
         submission_embed.set_footer(text=f"User ID: {author.id}")
+        user_embeds.append(submission_embed)
+        for attachment in attachments:
+            user_embed = discord.Embed()
+            user_embed.set_image(url=attachment.url)
+            user_embeds.append(user_embed)
         try:
-            await author.send(embed=submission_embed)
-            for attachment in attachments:
-                await author.send(content=attachment.url)
+            await author.send(embeds=user_embeds)
         except discord.Forbidden:
             await interaction.response.send_message(
                 "I cannot send you a DM. Please check your privacy settings.", ephemeral=True
