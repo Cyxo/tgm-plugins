@@ -7,6 +7,25 @@ COG_NAME = "RoleManager"
 GUILD_ID = 311149232402726912
 STAFF_CHANNEL_ID = 781551409433673748 #please change with the intended channel  lole
 
+ROLES = [
+    app_commands.Choice(name="OG〖Pulled on Release〗", value="1354884832315969719"), #Roles's ids should be already changed, so no need to change them again
+    app_commands.Choice(name="Stygian Guide〖M0 Trigger〗", value="1354885013153255525"),
+    app_commands.Choice(name="Spectral Gaze〖Weapon Haver〗", value="1354885535528910908"),
+    app_commands.Choice(name="Sharpened Senses〖M1+ Trigger〗", value="1354885769642119340"),
+    app_commands.Choice(name="Condemned Soul〖M6 Trigger〗", value="1354886255762210876"),
+    app_commands.Choice(name="Vengeful Specter〖O5 Weapon〗", value="1354886598810013716"),
+    app_commands.Choice(name="Locked In〖Maxed skills〗", value="1354886772886339593"),
+]
+ROLES_DESCRIPTION = {
+    "1354884832315969719": "Requirement: Get Trigger on her first release banner (1.6)",
+    "1354885013153255525": "Requirement: Having Trigger in your account",
+    "1354885535528910908": "Requirement: Having Trigger's W-Engine in your account",
+    "1354885769642119340": "Requirement: Having atleast 1 of Trigger's Mindscapes",
+    "1354886255762210876": "Requirement: Having all 6 of Trigger's Mindscapes",
+    "1354886598810013716": "Requirement: Having Overclocked 4 times Trigger's W-Engine",
+    "1354886772886339593": "Requirement: Having Maxed all of Trigger's Skill (not counting mindscape levels)",
+}
+
 class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
     def __init__(self, bot):
         self.bot = bot
@@ -15,27 +34,17 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
     async def info(self, interaction: discord.Interaction):
         embed = discord.Embed(title="── · · ✦  STAFF ROLES  ❀ ‧ ₊ ˚", description="", color=discord.Color.yellow())
         embed.set_thumbnail(url="https://catjam-united.s-ul.eu/oCSgKMpe")
-        embed.add_field(name="OG〖Pulled on Release〗", value="Requirement: Get Trigger on her first release banner (1.6)", inline=False)
-        embed.add_field(name="Stygian Guide〖M0 Trigger〗", value="Requirement: Having Trigger in your account", inline=False)
-        embed.add_field(name="Spectral Gaze〖Weapon Haver〗", value="Requirement: Having Trigger's W-Engine in your account" , inline=False)
-        embed.add_field(name="Sharpened Senses〖M1+ Trigger〗", value="Requirement: Having atleast 1 of Trigger's Mindscapes" , inline=False)
-        embed.add_field(name="Condemned Soul〖M6 Trigger〗", value="Requirement: Having all 6 of Trigger's Mindscapes" , inline=False)
-        embed.add_field(name="Vengeful Specter〖O5 Weapon〗", value="Requirement: Having Overclocked 4 times Trigger's W-Engine" , inline=False)
-        embed.add_field(name="<@&1354886772886339593>", value="Requirement: Having Maxed all of Trigger's Skill (not counting mindscape levels)" , inline=False)
+        embed_text = ""
+        for role in ROLES:
+            embed_text += f"<@&{role.value}>\n"
+            embed_text += ROLES_DESCRIPTION[role.value] + "\n\n"
+        embed.description = embed_text
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="role_request", description="Submit a request for a vanity role.")
     @app_commands.describe(role="Choose one of the available roles.")
     @app_commands.choices(
-        role=[
-            app_commands.Choice(name="OG〖Pulled on Release〗", value="1354884832315969719"), #Roles's ids should be already changed, so no need to change them again
-            app_commands.Choice(name="Stygian Guide〖M0 Trigger〗", value="1354885013153255525"),
-            app_commands.Choice(name="Spectral Gaze〖Weapon Haver〗", value="1354885535528910908"),
-            app_commands.Choice(name="Sharpened Senses〖M1+ Trigger〗", value="1354885769642119340"),
-            app_commands.Choice(name="Condemned Soul〖M6 Trigger〗", value="1354886255762210876"),
-            app_commands.Choice(name="Vengeful Specter〖O5 Weapon〗", value="1354886598810013716"),
-            app_commands.Choice(name="Locked In〖Maxed skills〗", value="1354886772886339593"),
-        ]
+        role=ROLES
     )
     async def role_request(self, interaction: discord.Interaction, role: app_commands.Choice[str], image: discord.Attachment, image2: discord.Attachment = None, image3: discord.Attachment = None):
 
