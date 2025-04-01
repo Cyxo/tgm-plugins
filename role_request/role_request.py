@@ -63,7 +63,7 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
 
         guild = self.bot.get_guild(GUILD_ID) # Get the discord server
         author = interaction.user  # Get the user who requested the role
-        staff_channel = guild.get_channel(STAFF_CHANNEL_ID)  # Get the staff channel
+        staff_channel: discord.TextChannel = guild.get_channel(STAFF_CHANNEL_ID)  # Get the staff channel
 
 
         #-----------------------------------------------------------
@@ -127,7 +127,8 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
             embed.set_footer(text=f"User ID: {author.id}")
             embed.set_author(name=author.name, icon_url=author.avatar.url if author.avatar else None)
             if i == len(attachments) - 1:  # If it's the last image, add the view
-                await staff_channel.send(embed=embed, view=staff_view)
+                message = await staff_channel.send(embed=embed, view=staff_view)
+                staff_view.message = message
             else:
                 await staff_channel.send(embed=embed)
 
@@ -147,13 +148,8 @@ class StaffView(View):
         self.author = author
         self.role = role
         self.selection_reasons = None  # Initialize selection reasons
+        self.message = None
         super().__init__(timeout=None)  # No timeout for the view
-
-    async def disable_all_components(self, interaction: discord.Interaction):
-        """Disable all components in the view."""
-        for item in self.children:  # Iterate through all components in the view
-            item.disabled = True
-        await interaction.response.edit_message(view=self)  # Update the message with the disabled view
 
     @discord.ui.button(label="Accept", style=discord.ButtonStyle.green)
     async def accept_callback(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -175,6 +171,7 @@ class StaffView(View):
 
             # Stop the view
             self.stop()
+            await self.message.edit(view=None)
         except Exception as e:
             print(f"Error while assigning role: {e}")
 
@@ -226,6 +223,7 @@ class StaffView(View):
 
             # Stop the view
             self.stop()
+            await self.message.edit(view=None)
         except Exception as e:
             print(f"Error while rejecting role request: {e}")
 
