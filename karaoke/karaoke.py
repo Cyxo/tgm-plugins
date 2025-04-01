@@ -8,7 +8,7 @@ from core import checks
 from core.models import PermissionLevel
 from typing import Union
 
-EVENT_STAFF = 1106788954608500836  # Event Staff Role
+EVENT_STAFF = 1292946155763929139  # Event Staff Role
 PERMISSION_LEVEL = PermissionLevel.OWNER  # Alternate Permission Level
 BAN_LIST_FILE = os.path.dirname(__file__) + "/banlist.json"
 
@@ -183,7 +183,7 @@ class KaraokeQueueView(discord.ui.View):
         )
 
     # JOIN
-    @discord.ui.button(label='Join', style=discord.ButtonStyle.blurple, emoji="<:RuanMeiSmug:1186252727433568377>")
+    @discord.ui.button(label='Join', style=discord.ButtonStyle.blurple, emoji="<:TriggerHello:1333076146727682129>")
     async def join(self, interaction: discord.Interaction, button: discord.ui.Button):
         """Allows a member to join the queue."""
         if interaction.user.id in self.ban_list:
@@ -204,7 +204,7 @@ class KaraokeQueueView(discord.ui.View):
         await self.message.edit(embed=await self.generate_queue())
 
     # LEAVE
-    @discord.ui.button(label='Leave', style=discord.ButtonStyle.danger, emoji="<:RuanMeiSleep:1185520285663891476>")
+    @discord.ui.button(label='Leave', style=discord.ButtonStyle.danger, emoji="<:TriggerSleep:1350849968562245674>")
     async def leave(self, interaction: discord.Interaction, button: discord.ui.Button):
         """Allows a member to leave the queue."""
         if self.is_current(interaction.user.id):
@@ -220,7 +220,7 @@ class KaraokeQueueView(discord.ui.View):
         await self.message.edit(embed=await self.generate_queue())
 
     # NEXT - STAFF ONLY
-    @discord.ui.button(label='Next', style=discord.ButtonStyle.success, emoji="<:RuanMeiJoy:1153475381156913205>")
+    @discord.ui.button(label='Next', style=discord.ButtonStyle.success, emoji="<:TriggerLove:1338528342156247174>")
     @event_only
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
         """Moves to the next person in the queue."""
@@ -229,7 +229,7 @@ class KaraokeQueueView(discord.ui.View):
         await self.message.edit(embed=await self.generate_queue())
         await interaction.response.defer()
 
-    @discord.ui.button(label='Reset', style=discord.ButtonStyle.grey, emoji="<:RuanMeiOMG:1156150407228309564>")
+    @discord.ui.button(label='Reset', style=discord.ButtonStyle.grey, emoji="<:Triggered:1346574097722773586>")
     @event_only
     async def reset(self, interaction: discord.Interaction, button: discord.ui.Button):
         """Reset button, clears the queue."""
