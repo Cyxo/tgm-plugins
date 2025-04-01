@@ -71,7 +71,7 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
         #-----------------------------------------------------------
 
         # Collect all attachments into a list
-        attachments = [image, image2, image3]
+        attachments = [zzz_profile, image, image2, image3]
         attachments = [att for att in attachments if att is not None]  # Remove None values
 
         # Validate that all attachments are images
@@ -121,16 +121,16 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
         # Send the main embed with the view to the staff channel
         await staff_channel.send(embed=main_embed)
         # Send the images to the staff channel and attach the view to the last one
+        embeds=[]
         for i, attachment in enumerate(attachments):
             embed = discord.Embed(title=f"Image {i + 1}", color=discord.Color.blue())
             embed.set_image(url=attachment.url)
             embed.set_footer(text=f"User ID: {author.id}")
             embed.set_author(name=author.name, icon_url=author.avatar.url if author.avatar else None)
-            if i == len(attachments) - 1:  # If it's the last image, add the view
-                message = await staff_channel.send(embed=embed, view=staff_view)
-                staff_view.message = message
-            else:
-                await staff_channel.send(embed=embed)
+            embeds.append(embed)
+
+        message = await staff_channel.send(embed=embed, view=staff_view)
+        staff_view.message = message
 
         # Acknowledge the interaction
         await interaction.response.send_message(
@@ -181,7 +181,8 @@ class StaffView(View):
             discord.SelectOption(label="No proof attachment.", value="No proof attachment."),
             discord.SelectOption(label="Attached pictures are proof for a different role.", value="Attached pictures are proof for a different role."),
             discord.SelectOption(label="UID is not visible.", value="UID is not visible."),
-            discord.SelectOption(label="Discord username is not in HSR bio.", value="Discord username is not in HSR bio."),
+            discord.SelectOption(label="Discord username is not on ZZZ profile.", value="Discord username is not on ZZZ profile."),
+            discord.SelectOption(label="No ZZZ profile screenshot.", value="No ZZZ profile screenshot."),
             discord.SelectOption(label="Didn't meet role requirements.", value="Didn't meet role requirements."),
             discord.SelectOption(label="Other. Please open a modmail for further information.", value="Other. Please open a modmail for further information."),
             discord.SelectOption(label="Poopyhead", value="Poopyhead")
