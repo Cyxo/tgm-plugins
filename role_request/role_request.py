@@ -32,24 +32,21 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
 
     @app_commands.command(name="info", description="Get information about requirements of the vanity roles.")
     async def info(self, interaction: discord.Interaction):
-        try:
-            embeds=[]
-            embed = discord.Embed(title="── · · ✦ VANITY ROLES ◎ ‧ ₊ ˚", description="", color=discord.Color.from_str())
-            embed.set_thumbnail(url="https://catjam-united.s-ul.eu/oCSgKMpe")
-            embed_text = ""
-            for role in ROLES:
-                embed_text += f"<@&{role.value}>\n"
-                embed_text += ROLES_DESCRIPTION[role.value] + "\n\n"
-            embed.description = embed_text
-            embeds.append(embed)
-            embed = discord.Embed(title="── · · ✦ HOW TO CLAIM ◎ ‧ ₊ ˚", color=discord.Color.from_str())
-            embed.description = "Use </role request:1356587761942925363> to claim a vanity role\n\n"
-            embed.description += "The first screenshot of your role request should be your **ZZZ profile** with your **UID** and **Discord username** clearly visible, as shown in the example below. All your screenshots should also feature your UID."
-            embed.set_image(url="https://media.discordapp.net/attachments/435078369852260353/1356593050310283426/image.png")
-            embeds.append(embed)
-            await interaction.response.send_message(embeds=embeds, ephemeral=True)
-        except Exception as e:
-            print(e)
+        embeds=[]
+        embed = discord.Embed(title="── · · ✦ VANITY ROLES ◎ ‧ ₊ ˚", description="", color=discord.Color.from_str("rgb(233, 177, 72)"))
+        embed.set_thumbnail(url="https://catjam-united.s-ul.eu/oCSgKMpe")
+        embed_text = ""
+        for role in ROLES:
+            embed_text += f"<@&{role.value}>\n"
+            embed_text += ROLES_DESCRIPTION[role.value] + "\n\n"
+        embed.description = embed_text
+        embeds.append(embed)
+        embed = discord.Embed(title="── · · ✦ HOW TO CLAIM ◎ ‧ ₊ ˚", color=discord.Color.from_str("rgb(233, 177, 72)"))
+        embed.description = "Use </role request:1356587761942925363> to claim a vanity role\n\n"
+        embed.description += "The first screenshot of your role request should be your **ZZZ profile** with your **UID** and **Discord username** clearly visible, as shown in the example below. All your screenshots should also feature your UID."
+        embed.set_image(url="https://media.discordapp.net/attachments/435078369852260353/1356593050310283426/image.png")
+        embeds.append(embed)
+        await interaction.response.send_message(embeds=embeds, ephemeral=True)
 
     @app_commands.command(name="request", description="Submit a request for a vanity role.")
     @app_commands.describe(role="Choose one of the available roles.")
