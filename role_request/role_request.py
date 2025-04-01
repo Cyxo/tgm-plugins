@@ -21,7 +21,7 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
         embed.add_field(name="Sharpened Senses〖M1+ Trigger〗", value="Requirement: Having atleast 1 of Trigger's Mindscapes" , inline=False)
         embed.add_field(name="Condemned Soul〖M6 Trigger〗", value="Requirement: Having all 6 of Trigger's Mindscapes" , inline=False)
         embed.add_field(name="Vengeful Specter〖O5 Weapon〗", value="Requirement: Having Overclocked 4 times Trigger's W-Engine" , inline=False)
-        embed.add_field(name="Locked In〖Maxed skills〗", value="Requirement: Having Maxed all of Trigger's Skill (not counting mindscape levels)" , inline=False)
+        embed.add_field(name="<@&1354886772886339593>", value="Requirement: Having Maxed all of Trigger's Skill (not counting mindscape levels)" , inline=False)
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="role_request", description="Submit a request for a vanity role.")
