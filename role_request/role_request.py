@@ -37,7 +37,10 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
         embed.set_thumbnail(url="https://catjam-united.s-ul.eu/oCSgKMpe")
         embed_text = ""
         for role in ROLES:
-            embed_text += f"<@&{role.value}>\n"
+            if not interaction.guild:
+                embed_text += f"**@{role.name}**\n"
+            else:
+                embed_text += f"<@&{role.value}>\n"
             embed_text += ROLES_DESCRIPTION[role.value] + "\n\n"
         embed.description = embed_text
         embeds.append(embed)
