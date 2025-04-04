@@ -66,6 +66,7 @@ class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
 
         guild = self.bot.get_guild(GUILD_ID) # Get the discord server
         author = interaction.user  # Get the user who requested the role
+        author = guild.get_member(author.id) # Get their member object in the guild
         staff_channel: discord.TextChannel = guild.get_channel(STAFF_CHANNEL_ID)  # Get the staff channel
 
 
