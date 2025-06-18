@@ -8,22 +8,22 @@ GUILD_ID = 1292899450754302024
 STAFF_CHANNEL_ID = 1356606380345135296
 
 ROLES = [
-    app_commands.Choice(name="OG〖Pulled on Release〗", value="1354884832315969719"), #Roles's ids should be already changed, so no need to change them again
-    app_commands.Choice(name="Stygian Guide〖M0 Trigger〗", value="1354885013153255525"),
+    app_commands.Choice(name="Stygian Guide〖M0 Trigger〗", value="1354885013153255525"), #Roles's ids should be already changed, so no need to change them again
     app_commands.Choice(name="Spectral Gaze〖Weapon Haver〗", value="1354885535528910908"),
+    app_commands.Choice(name="Locked In〖Maxed skills〗", value="1354886772886339593"),
+    app_commands.Choice(name="OG〖Pulled on Release〗", value="1354884832315969719"),
     app_commands.Choice(name="Sharpened Senses〖M1+ Trigger〗", value="1354885769642119340"),
     app_commands.Choice(name="Condemned Soul〖M6 Trigger〗", value="1354886255762210876"),
     app_commands.Choice(name="Vengeful Specter〖O5 Weapon〗", value="1354886598810013716"),
-    app_commands.Choice(name="Locked In〖Maxed skills〗", value="1354886772886339593"),
 ]
 ROLES_DESCRIPTION = {
-    "1354884832315969719": "Requirement: Get Trigger on her first release banner (1.6)",
     "1354885013153255525": "Requirement: Having Trigger in your account",
     "1354885535528910908": "Requirement: Having Trigger's W-Engine in your account",
+    "1354886772886339593": "Requirement: Having Maxed all of Trigger's Skill (not counting mindscape levels)",
+    "1354884832315969719": "Requirement: Get Trigger on her first release banner (1.6)",
     "1354885769642119340": "Requirement: Having atleast 1 of Trigger's Mindscapes",
     "1354886255762210876": "Requirement: Having all 6 of Trigger's Mindscapes",
     "1354886598810013716": "Requirement: Having Overclocked 4 times Trigger's W-Engine",
-    "1354886772886339593": "Requirement: Having Maxed all of Trigger's Skill (not counting mindscape levels)",
 }
 
 class RoleManager(commands.GroupCog, name=COG_NAME, group_name="role"):
