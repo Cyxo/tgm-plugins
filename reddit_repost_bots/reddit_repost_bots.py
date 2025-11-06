@@ -32,7 +32,7 @@ class RedditRepostBots(commands.Cog):
                             buffer = BytesIO(await resp.read())
                             img = Image.open(buffer)
                             hash = phash(img)
-                            for fn, hsh in self.hashes:
+                            for fn, hsh in self.hashes.items():
                                 if hsh - hash < 5:
                                     await message.guild.get_channel(1345472948043120691).send(f"<@200282032771694593> repost detected. Hamming distance: **{hsh - hash}**. Original image: `{fn}`. Post URL: {emb.url}")
                                     await message.delete()
