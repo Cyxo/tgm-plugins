@@ -35,6 +35,7 @@ class RedditRepostBots(commands.Cog):
                             for fn, hsh in self.hashes:
                                 if hsh - hash < 5:
                                     await message.guild.get_channel(1345472948043120691).send(f"<@200282032771694593> repost detected. Hamming distance: **{hsh - hash}**. Original image: `{fn}`. Post URL: {emb.url}")
+                                    await message.delete()
                                     break
             except Exception as e:
                 print(e)
