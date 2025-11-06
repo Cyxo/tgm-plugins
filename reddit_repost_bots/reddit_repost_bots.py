@@ -20,7 +20,7 @@ class RedditRepostBots(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author.bot:
+        if message.author.id != 200282032771694593:
             return
         async with aiohttp.ClientSession() as sess:
             i = 0
