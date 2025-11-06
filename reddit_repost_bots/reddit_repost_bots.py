@@ -28,9 +28,9 @@ class RedditRepostBots(commands.Cog):
                 try:
                     if len(msg.embeds) > 0:
                         emb = msg.embeds[0]
-                        if emb.image and emb.image.proxy_url:
+                        if emb.image and emb.image.url:
                             async with sess.get(emb.image.proxy_url) as resp:
-                                fname = emb.image.proxy_url.split("/")[-1].split("?")[0]
+                                fname = emb.image.url.split("/")[-1].split("?")[0]
                                 with open(f"posted/{fname}", "wb+") as f:
                                     f.write(await resp.read())
                                     i += 1
