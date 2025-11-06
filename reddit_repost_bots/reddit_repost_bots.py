@@ -1,5 +1,6 @@
 from os import path
 from glob import glob
+from io import BytesIO
 
 import discord
 import aiohttp
@@ -13,30 +14,30 @@ class RedditRepostBots(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.hashes = []
+        self.hashes = dict()
         if path.exists("posted/"):
             for file in glob("posted/*"):
-                self.hashes.append(phash(Image.open(file)))
+                self.hashes[file] = phash(Image.open(file))
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        if message.author.id != 200282032771694593:
+        if message.channel.id != 1294324881365930185 or not message.author.bot:
             return
         async with aiohttp.ClientSession() as sess:
-            i = 0
-            async for msg in message.channel.history():
-                try:
-                    if len(msg.embeds) > 0:
-                        emb = msg.embeds[0]
-                        if emb.image and emb.image.proxy_url:
-                            async with sess.get(emb.image.proxy_url) as resp:
-                                fname = emb.image.proxy_url.split("/")[-1].split("?")[0]
-                                with open(f"posted/{fname}", "wb+") as f:
-                                    f.write(await resp.read())
-                                    i += 1
-                                    print(i)
-                except Exception as e:
-                    print(e)
+            try:
+                if len(message.embeds) > 0:
+                    emb = message.embeds[0]
+                    if emb.image and emb.image.proxy_url:
+                        async with sess.get(emb.image.proxy_url) as resp:
+                            buffer = BytesIO(await resp.read())
+                            img = Image.open(buffer)
+                            hash = phash(img)
+                            for fn, hsh in self.hashes:
+                                if hsh - hash < 5:
+                                    await message.guild.get_channel(1345472948043120691).send(f"<@200282032771694593> repost detected. Hamming distance: **{hsh - hash}**. Original image: `{fn}`. Post URL: {emb.url}")
+                                    break
+            except Exception as e:
+                print(e)
 
 
 async def setup(bot):
