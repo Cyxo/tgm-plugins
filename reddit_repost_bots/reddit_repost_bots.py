@@ -20,7 +20,6 @@ class RedditRepostBots(commands.Cog):
             for file in glob("posted/*"):
                 self.hashes[file] = phash(Image.open(file))
 
-    @commands.Cog.listener()
     async def on_ready(self):
         print("Loading posted images")
         async with aiohttp.ClientSession() as sess:
@@ -85,5 +84,7 @@ class RedditRepostBots(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(RedditRepostBots(bot))
+    cog = RedditRepostBots(bot)
+    await bot.add_cog(cog)
+    await cog.on_ready()
 
