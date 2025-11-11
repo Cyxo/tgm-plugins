@@ -40,10 +40,11 @@ class RedditRepostBots(commands.Cog):
                             fname = url.split("/")[-1].split("?")[0]
                             if not path.exists(f"posted/{fname}"):
                                 async with sess.get(emb.image.proxy_url) as resp:
-                                    with open(f"posted/{fname}", "wb+") as f:
-                                        f.write(await resp.read())
-                                        i += 1
-                                        print(f"{i}. {fname}")
+                                    if resp.status == 200:
+                                        with open(f"posted/{fname}", "wb+") as f:
+                                            f.write(await resp.read())
+                                            i += 1
+                                            print(f"{i}. {fname}")
                 except Exception as e:
                     print(e)
 
