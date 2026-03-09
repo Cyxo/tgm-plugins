@@ -13,7 +13,7 @@ CONF_FILE = path.join(path.dirname(__file__), "config.json")
 SETTINGS = {
     "channel_id": int,
     "subreddit": str,
-    "cookies": json.dumps,
+    "cookies": json.loads,
     "ignore_nsfw": lambda v: v == "True"
 }
 COG_NAME = "RedditFeed"
