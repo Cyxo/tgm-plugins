@@ -21,7 +21,7 @@ COG_NAME = "RedditFeed"
 
 @discord.app_commands.default_permissions(administrator=True)
 class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
-    """Reddit repost bots detection"""
+    """Reddit feed plugin"""
 
     def __init__(self, bot):
         self.bot: commands.Bot = bot
@@ -115,7 +115,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
             await asyncio.sleep(60)
 
-    @discord.app_commands.command()
+    @discord.app_commands.command(description="Update settings for the Reddit feed")
     @discord.app_commands.choices(name=[
         discord.app_commands.Choice(name=k, value=k)
         for k in SETTINGS.keys()
@@ -124,7 +124,25 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
         func = SETTINGS[name]
         setattr(self, name, func(value))
         self.save_conf()
-        await interaction.response.send_message(f"Setting `{name}` set to `{getattr(self, name)}`")
+        if name == "cookies":
+            await interaction.response.send_message(f"Setting `{name}` set.")
+        else:
+            await interaction.response.send_message(f"Setting `{name}` set to `{getattr(self, name)}`.")
+
+    @discord.app_commands.command(description="Show Reddit feed setting")
+    async def show_settings(self, interaction: discord.Interaction):
+        msg = ""
+        for stt in SETTINGS.keys():
+            msg += f"**{stt}:** "
+            val = getattr(self, stt)
+            if stt == "cookies":
+                msg += "..."
+            elif stt == "channel_id":
+                msg += f"<#{val}>"
+            else:
+                msg += str(val)
+            msg += "\n"
+        await interaction.response.send_message(msg)
 
 
 async def setup(bot: commands.Bot):
