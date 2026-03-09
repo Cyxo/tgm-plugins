@@ -19,7 +19,7 @@ SETTINGS = {
 COG_NAME = "RedditFeed"
 
 
-class RedditFeed(commands.Cog, name=COG_NAME):
+class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
     """Reddit repost bots detection"""
 
     def __init__(self, bot):
@@ -113,16 +113,17 @@ class RedditFeed(commands.Cog, name=COG_NAME):
             await asyncio.sleep(60)
 
     @discord.app_commands.command()
-    @discord.app_commands.choices(setting_name=[
+    @discord.app_commands.choices(name=[
         discord.app_commands.Choice(name=k, value=k)
         for k in SETTINGS.keys()
     ])
-    async def reddit_setting(self, interaction: discord.Interaction, setting_name: str, value: str):
-        func = SETTINGS[setting_name]
-        setattr(self, setting_name, func(value))
+    async def setting(self, interaction: discord.Interaction, name: str, value: str):
+        func = SETTINGS[name]
+        setattr(self, name, func(value))
         self.save_conf()
-        await interaction.response.send_message(f"Setting `{setting_name}` set to `{getattr(self, setting_name)}`", ephemeral=True)
+        await interaction.response.send_message(f"Setting `{name}` set to `{getattr(self, name)}`", ephemeral=True)
 
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(RedditFeed(bot))
+    await bot.tree.sync()
