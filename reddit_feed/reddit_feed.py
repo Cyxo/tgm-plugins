@@ -74,9 +74,11 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
             f.write(j)
 
     async def get_new_entries(self):
+        print("Reddit feed scheduling started")
         while True:
             cog: RedditFeed = self.bot.get_cog(COG_NAME)
             if cog is None or cog.cog_id != self.cog_id:
+                print("Reddit feed cog out of date, exitting")
                 break
 
             if self.cookies is None:
@@ -86,7 +88,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
             channel = self.bot.get_channel(self.channel_id)
 
             async with aiohttp.ClientSession("https://old.reddit.com/", cookies=self.cookies, headers=self.headers) as session:
-                async with session.get(f"r/{self.subreddit}/new/") as r:
+                async with session.get(f"/r/{self.subreddit}/new/") as r:
                     html = await r.text()
 
                 soup = BeautifulSoup(html, "html.parser")
@@ -128,4 +130,5 @@ async def setup(bot: commands.Bot):
     cog = RedditFeed(bot)
     await bot.add_cog(cog)
     await bot.tree.sync()
-    await cog.get_new_entries()
+    asyncio.get_event_loop().create_task(cog.get_new_entries())
+    print("Reddit Feed installed")
