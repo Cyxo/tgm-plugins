@@ -125,5 +125,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(RedditFeed(bot))
+    cog = RedditFeed(bot)
+    await bot.add_cog(cog)
     await bot.tree.sync()
+    await cog.get_new_entries()
