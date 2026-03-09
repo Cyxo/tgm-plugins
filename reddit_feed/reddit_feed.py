@@ -19,6 +19,7 @@ SETTINGS = {
 COG_NAME = "RedditFeed"
 
 
+@discord.app_commands.default_permissions(administrator=True)
 class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
     """Reddit repost bots detection"""
 
@@ -123,7 +124,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
         func = SETTINGS[name]
         setattr(self, name, func(value))
         self.save_conf()
-        await interaction.response.send_message(f"Setting `{name}` set to `{getattr(self, name)}`", ephemeral=True)
+        await interaction.response.send_message(f"Setting `{name}` set to `{getattr(self, name)}`")
 
 
 async def setup(bot: commands.Bot):
