@@ -1,6 +1,7 @@
 import asyncio
 import json
 import uuid
+from datetime import datetime, timezone
 from os import path
 
 import discord
@@ -35,6 +36,12 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
         self.ignore_nsfw = True
 
         self.load_conf()
+
+        try:
+            datetime.fromisoformat(self.last_entry)
+        except:
+            self.last_entry = str(datetime.now(tz=timezone.utc))
+
         self.save_conf()
 
         self.headers = {
@@ -96,7 +103,8 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
                 posts = soup.find_all("div", {"class": "thing"})
                 for post in posts:
-                    if post["id"] == self.last_entry:
+                    post_date = post.find("time")["datetime"]
+                    if datetime.fromisoformat(post_date) < datetime.fromisoformat(self.last_entry):
                         break
 
                     if post.find("div", {"class": "nsfw-stamp"}) and self.ignore_nsfw:
@@ -113,7 +121,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
                     if self.last_entry is None:
                         break
 
-                self.last_entry = posts[0]["id"]
+                self.last_entry = posts[0].find("time")["datetime"]
                 self.save_conf()
 
             await asyncio.sleep(60)
