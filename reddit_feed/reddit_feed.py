@@ -103,8 +103,12 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
                 posts = soup.find_all("div", {"class": "thing"})
                 for post in posts:
-                    post_date = post.find("time")["datetime"]
-                    if datetime.fromisoformat(post_date) < datetime.fromisoformat(self.last_entry):
+                    try:
+                        post_date = post.find("time")["datetime"]
+                    except:
+                        continue
+
+                    if datetime.fromisoformat(post_date) <= datetime.fromisoformat(self.last_entry):
                         break
 
                     if post.find("div", {"class": "nsfw-stamp"}) and self.ignore_nsfw:
