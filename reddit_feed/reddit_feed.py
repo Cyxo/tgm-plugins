@@ -104,8 +104,11 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
                     rel_link = post["data-permalink"]
                     link = f"https://www.rxddit.com{rel_link}"
+                    author = post.find("a", {"class": "author"}).text
 
-                    await channel.send(link)
+                    msg = f"# [New post]({link})\nPosted by [{author.text}](<https://reddit.com/u/{author}>) on [r/{self.subreddit}](<https://reddit.com/r/{self.subreddit}>)"
+
+                    await channel.send(msg)
 
                     if self.last_entry is None:
                         break
