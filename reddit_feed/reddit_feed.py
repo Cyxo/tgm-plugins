@@ -112,9 +112,15 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
                     rel_link = post["data-permalink"]
                     link = f"https://www.rxddit.com{rel_link}"
-                    author = post.find("a", {"class": "author"}).text
+                    try:
+                        author = post.find("a", {"class": "author"}).text
+                    except:
+                        author = None
 
-                    msg = f"# [New post]({link})\nPosted by [{author}](<https://reddit.com/u/{author}>) on [r/{self.subreddit}](<https://reddit.com/r/{self.subreddit}>)"
+                    msg = f"# [New post]({link})\nPosted by "
+                    if author is not None:
+                        msg += f"[{author}](<https://reddit.com/u/{author}>) "
+                    msg += f"on [r/{self.subreddit}](<https://reddit.com/r/{self.subreddit}>)"
 
                     await channel.send(msg)
 
