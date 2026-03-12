@@ -96,43 +96,46 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
             channel = self.bot.get_channel(self.channel_id)
 
             async with aiohttp.ClientSession("https://old.reddit.com/", cookies=self.cookies, headers=self.headers) as session:
-                async with session.get(f"/r/{self.subreddit}/new/") as r:
-                    html = await r.text()
+                try:
+                    async with session.get(f"/r/{self.subreddit}/new/") as r:
+                        html = await r.text()
 
-                soup = BeautifulSoup(html, "html.parser")
+                    soup = BeautifulSoup(html, "html.parser")
 
-                posts = soup.find_all("div", {"class": "thing"})
-                for post in posts:
-                    try:
-                        post_date = post.find("time")["datetime"]
-                    except:
-                        continue
+                    posts = soup.find_all("div", {"class": "thing"})
+                    for post in posts:
+                        try:
+                            post_date = post.find("time")["datetime"]
+                        except:
+                            continue
 
-                    if datetime.fromisoformat(post_date) <= datetime.fromisoformat(self.last_entry):
-                        break
+                        if datetime.fromisoformat(post_date) <= datetime.fromisoformat(self.last_entry):
+                            break
 
-                    if post.find("div", {"class": "nsfw-stamp"}) and self.ignore_nsfw:
-                        continue
+                        if post.find("div", {"class": "nsfw-stamp"}) and self.ignore_nsfw:
+                            continue
 
-                    rel_link = post["data-permalink"]
-                    link = f"https://www.rxddit.com{rel_link}"
-                    try:
-                        author = post.find("a", {"class": "author"}).text
-                    except:
-                        author = None
+                        rel_link = post["data-permalink"]
+                        link = f"https://www.rxddit.com{rel_link}"
+                        try:
+                            author = post.find("a", {"class": "author"}).text
+                        except:
+                            author = None
 
-                    msg = f"# [New post]({link})\nPosted by "
-                    if author is not None:
-                        msg += f"[{author}](<https://reddit.com/u/{author}>) "
-                    msg += f"on [r/{self.subreddit}](<https://reddit.com/r/{self.subreddit}>)"
+                        msg = f"# [New post]({link})\nPosted by "
+                        if author is not None:
+                            msg += f"[{author}](<https://reddit.com/u/{author}>) "
+                        msg += f"on [r/{self.subreddit}](<https://reddit.com/r/{self.subreddit}>)"
 
-                    await channel.send(msg)
+                        await channel.send(msg)
 
-                    if self.last_entry is None:
-                        break
+                        if self.last_entry is None:
+                            break
 
-                self.last_entry = posts[0].find("time")["datetime"]
-                self.save_conf()
+                    self.last_entry = posts[0].find("time")["datetime"]
+                    self.save_conf()
+                except:
+                    pass
 
             await asyncio.sleep(60)
 
