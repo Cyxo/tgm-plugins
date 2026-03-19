@@ -103,11 +103,15 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
                     soup = BeautifulSoup(html, "html.parser")
 
                     posts = soup.find_all("div", {"class": "thing"})
+                    last_time = None
                     for post in posts[:5]:
                         try:
                             post_date = post.find("time")["datetime"]
                         except:
                             continue
+
+                        if last_time is None:
+                            last_time = post_date
 
                         if datetime.fromisoformat(post_date) <= datetime.fromisoformat(self.last_entry):
                             break
@@ -134,7 +138,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
                         if self.last_entry is None:
                             break
 
-                    self.last_entry = posts[0].find("time")["datetime"]
+                    self.last_entry = last_time
                     self.save_conf()
                 except:
                     pass
