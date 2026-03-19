@@ -138,7 +138,8 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
                         if self.last_entry is None:
                             break
 
-                    self.last_entry = last_time
+                    if datetime.fromisoformat(last_time) >= datetime.fromisoformat(self.last_entry):
+                        self.last_entry = last_time
                     self.save_conf()
                 except:
                     pass
