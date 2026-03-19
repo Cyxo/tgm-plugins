@@ -103,7 +103,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
                     soup = BeautifulSoup(html, "html.parser")
 
                     posts = soup.find_all("div", {"class": "thing"})
-                    for post in posts:
+                    for post in posts[:5]:
                         try:
                             post_date = post.find("time")["datetime"]
                         except:
@@ -111,6 +111,8 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
 
                         if datetime.fromisoformat(post_date) <= datetime.fromisoformat(self.last_entry):
                             break
+
+                        print(post_date, self.last_entry)
 
                         if post.find("div", {"class": "nsfw-stamp"}) and self.ignore_nsfw:
                             continue
