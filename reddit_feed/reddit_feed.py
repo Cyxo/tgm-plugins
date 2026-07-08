@@ -122,7 +122,7 @@ class RedditFeed(commands.GroupCog, name=COG_NAME, group_name="reddit"):
                             continue
 
                         rel_link = post["data-permalink"]
-                        link = f"https://www.rxddit.com{rel_link}"
+                        link = f"https://www.vxreddit.com{rel_link}"
                         try:
                             author = post.find("a", {"class": "author"}).text
                         except:
